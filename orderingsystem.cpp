@@ -7,6 +7,12 @@ const string Admin_id = "12344321";
 const string Admin_password = "meAdmin";
 
 
+void delay(int num){
+    time_t delay = num;
+    sleep(delay);
+    system("cls");
+}
+
 class UserDB{
     public:
     unordered_map<string,vector<string>> db; // mobile,<password,location>
@@ -32,9 +38,7 @@ class UserDB{
             system("cls");
             db[mobile].push_back(location);
             cout << "User successfully added!";
-            time_t delay = 2;
-            sleep(delay);
-            system("cls");
+            delay(2);
         }
 
     void Authenticate(){
@@ -43,14 +47,17 @@ class UserDB{
         while(loop){
                 cout << "Enter your mobile no. : ";
                 cin >> mobile;
-                cout << "Enter your password :";
+                cout << "Enter your password : ";
                 cin >> password;
+                system("cls");
             if(db[mobile][0] == password){
                 cout << "User Authentication successful!!" << endl;
                 loop = false;
+                delay(2);
             }else{
                 cout << "Sorry can't find any user with the given credentials" << endl;
                 cout << "Try again!!" << endl;
+                delay(2);
             }
         }
     }
@@ -101,6 +108,7 @@ class Admin{
         cout << "Enter the type of cuisine offered : ";
         cin.ignore();
         getline(cin,newShop.cuisine);
+        system("cls");
         add_items(newShop);
     }
 
@@ -109,6 +117,7 @@ class Admin{
         vector<pair<string,double>> items;
         cout << "Enter the number of food items to be added : ";
         cin >> num;
+        system("cls");
         int i = 1;
         while(i <= num){
             string food;
@@ -119,9 +128,11 @@ class Admin{
             cin >> price;
             items.push_back(make_pair(food,price));
             i++;
+            system("cls");
         }
         newShop.food_items = items;
         shops.push_back(newShop);
+        system("cls");
     }
 
     void DisplayRestaurants(){
@@ -198,7 +209,14 @@ class Order : public Admin{
             q.push(order);
             i++;
         }
-        cout << endl;
+        int num;
+        cout << "Enter -1 to go back ";
+        cin >> num;
+        if(num == -1){
+            system("cls");
+            cout << "Exiting...";
+            delay(2);
+        }
     }
 
     void displayRestaurantOrders(string name){
@@ -225,9 +243,18 @@ class Order : public Admin{
         }
         if(!flag){
             cout << "No orders found for " + name  + "!"<< endl;
+            delay(3);
+        }else{
+            int num;
+            cout << "Enter -1 to go back ";
+            cin >> num;
+            if(num == -1){
+                system("cls");
+                cout << "Exiting...";
+                delay(2);
+            }
         }
     }
-
 };
 
 
@@ -236,6 +263,7 @@ string genOrder_id(int num,string place){
 }
 
 int main(){
+    system("cls");
     UserDB d;
     Admin a;
     Order o;
@@ -256,13 +284,13 @@ int main(){
             if(account == 1){
                 string mobile;
                 cout << "Hi new user!!" << endl;
-                cout << "Enter your mobile number :";
+                cout << "Enter your mobile number : ";
                 cin >> mobile;
                 d.addUser(mobile);
                 UserNumber = mobile;
             }else if(account == 2){
                 string mobile;
-                cout << "Enter your mobile number :";
+                cout << "Enter your mobile number : ";
                 cin >> mobile;
                 d.Authenticate();
                 UserNumber = mobile;
@@ -270,10 +298,11 @@ int main(){
             cout << endl;
             a.DisplayRestaurants();
             int pickShop;
+            cout << "Enter the restaurant no. to order : ";
             cin >> pickShop;
+            system("cls");
             // take shop no. from the user;
             // pass it as an argumnent to the below function
-            a.DisplayFoodItems(pickShop);
             string Userplace = d.getUserPlace(UserNumber);
             string order_id = genOrder_id(pickShop,Userplace);
              // order_id,res_name,name,price,quantity
@@ -281,6 +310,7 @@ int main(){
             order1.order_id = order_id;
             order1.res_name = a.getRestaurantName(pickShop);
             while(1){
+                a.DisplayFoodItems(pickShop);
                 int num;
                 cout << "Enter food item no. or enter -1 to exit : ";
                 cin >> num;
@@ -290,6 +320,7 @@ int main(){
                     int quantity;
                     cout << "Enter quantity : ";
                     cin >> quantity;
+                    system("cls");
                     pair<string,double> temp = a.getNameandPrice(pickShop,num,quantity);
                     OrderSchema o1;
                     o1.item_name = temp.first;
@@ -298,8 +329,12 @@ int main(){
                     order1.details.push_back(o1);
                 }                
             }
+            system("cls");
             double tot_price = a.getTotal(order1);
             cout<<"The total price of your order is: "<< tot_price << endl;
+            delay(5);
+            cout << "Logging out..." << endl;
+            delay(2);
             o.pushOrder(order1);
             // while loop for the users to order
             // store item name and price in a vector of pairs
@@ -313,6 +348,7 @@ int main(){
                 cin >> id;
                 cout << "Enter Admin password : ";
                 cin >> password;
+                system("cls");
                 if(id == Admin_id && password == Admin_password){
                     cout << "Admin Authentication successful";
                     loop = false;
@@ -320,19 +356,22 @@ int main(){
                     cout << "Id or password doesn't match" << endl;
                     cout << "Try again!!" << endl;
                 }
+                system("cls");
             }
-            cout << endl;
             while(true){
                 cout << "1. Add restaurant" << endl;
                 cout << "2. Display orders" << endl;
                 cout << "3. Exit" << endl;
                 int choice;
                 cin >> choice;
+                system("cls");
                 if(choice == 1){
                     a.addshop();
                 }else if(choice == 2){
                     o.printOrders();
                 }else{
+                    cout << "Logging out...";
+                    delay(2);
                     break;
                 }
             }
@@ -341,6 +380,7 @@ int main(){
             cout << "Enter restaurant name : ";
             cin.ignore();
             getline(cin,name);
+            system("cls");
             o.displayRestaurantOrders(name);
         }
     }
