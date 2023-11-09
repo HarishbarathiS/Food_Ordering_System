@@ -41,12 +41,12 @@ class UserDB{
             delay(2);
         }
 
-    void Authenticate(){
-        string mobile,password;
+    void Authenticate(string mobile){
+        string password;
         bool loop = true;
         while(loop){
-                cout << "Enter your mobile no. : ";
-                cin >> mobile;
+                //cout << "Enter your mobile no. : ";
+                //cin >> mobile;
                 cout << "Enter your password : ";
                 cin >> password;
                 system("cls");
@@ -123,8 +123,9 @@ class Admin{
             string food;
             double price;
             cout << "Food name " << i << " : ";
-            cin >>  food;
-            cout <<  "Food price " << i << " : ";
+            cin.ignore();
+            getline(cin,food);         
+			cout <<  "Food price " << i << " : ";
             cin >> price;
             items.push_back(make_pair(food,price));
             i++;
@@ -292,7 +293,7 @@ int main(){
                 string mobile;
                 cout << "Enter your mobile number : ";
                 cin >> mobile;
-                d.Authenticate();
+                d.Authenticate(mobile);
                 UserNumber = mobile;
             }
             cout << endl;
