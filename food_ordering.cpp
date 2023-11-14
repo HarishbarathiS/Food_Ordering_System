@@ -38,7 +38,7 @@ class UserDB{
             system("cls");
             db[mobile].push_back(location);
             cout << "User successfully added!";
-            delay(2);
+            delay(5);
         }
 
     void Authenticate(string mobile){
@@ -53,7 +53,7 @@ class UserDB{
             if(db[mobile][0] == password){
                 cout << "User Authentication successful!!" << endl;
                 loop = false;
-                delay(2);
+                delay(5);
             }else{
                 cout << "Sorry can't find any user with the given credentials" << endl;
                 cout << "Try again!!" << endl;
@@ -104,10 +104,12 @@ class Admin{
         cin.ignore();
         getline(cin,newShop.name);
         cout << "Veg | Non-veg | Both ? ";
-        cin >> newShop.type;
+        cin.ignore();
+        getline(cin,newShop.type);
         cout << "Enter the type of cuisine offered : ";
         cin.ignore();
         getline(cin,newShop.cuisine);
+        delay(5);
         system("cls");
         add_items(newShop);
     }
@@ -353,6 +355,7 @@ int main(){
                 if(id == Admin_id && password == Admin_password){
                     cout << "Admin Authentication successful";
                     loop = false;
+                    delay(5);
                 }else{
                     cout << "Id or password doesn't match" << endl;
                     cout << "Try again!!" << endl;
